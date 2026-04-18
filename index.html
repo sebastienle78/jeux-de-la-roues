@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Roue de jeu Oui/Non circulaire</title>
+<style>
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #222;
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+  .wheel-container {
+    position: relative;
+    width: 400px;
+    height: 400px;
+  }
+  svg {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    user-select: none;
+    border-radius: 50%;
+    box-shadow: 0 0 15px rgba(0,0,0,0.4);
+  }
+  text {
+    font-weight: bold;
+    font-size: 18px;
+    fill: white;
+    text-shadow: 0 0 3px rgba(0,0,0,0.7);
+    pointer-events: none;
+  }
+  /* Animation rotation */
+  .spin {
+    animation: spin 4s ease-out forwards;
+  }
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(1440deg); /* 4 tours complets */
+    }
+  }
+  /* Background image behind the wheel */
+  .bg-image {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80');
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+  }
+</style>
+</head>
+<body>
+  <main>
+    <section class="wheel-container" aria-label="Roue de jeu Oui ou Non" role="region">
+      <div class="bg-image" aria-hidden="true"></div>
+      <svg viewBox="0 0 100 100" role="list" aria-label="Segments Oui ou Non" tabindex="0" aria-live="polite">
+        <!-- 8 segments de 45 degrés chacun -->
+        <!-- On crée les parts en alternant les couleurs -->
+        <g id="wheel">
+          <path fill="rgba(0,128,0,0.7)" d="M50 50 L100 50 A50 50 0 0 1 85.36 85.36 Z" role="listitem" aria-label="Oui"></path>
+          <path fill="rgba(128,0,0,0.7)" d="M50 50 L85.36 85.36 A50 50 0 0 1 50 100 Z" role="listitem" aria-label="Non"></path>
+          <path fill="rgba(0,128,0,0.7)" d="M50 50 L50 100 A50 50 0 0 1 14.64 85.36 Z" role="listitem" aria-label="Oui"></path>
+          <path fill="rgba(128,0,0,0.7)" d="M50 50 L14.64 85.36 A50 50 0 0 1 0 50 Z" role="listitem" aria-label="Non"></path>
+          <path fill="rgba(0,128,0,0.7)" d="M50 50 L0 50 A50 50 0 0 1 14.64 14.64 Z" role="listitem" aria-label="Oui"></path>
+          <path fill="rgba(128,0,0,0.7)" d="M50 50 L14.64 14.64 A50 50 0 0 1 50 0 Z" role="listitem" aria-label="Non"></path>
+          <path fill="rgba(0,128,0,0.7)" d="M50 50 L50 0 A50 50 0 0 1 85.36 14.64 Z" role="listitem" aria-label="Oui"></path>
+          <path fill="rgba(128,0,0,0.7)" d="M50 50 L85.36 14.64 A50 50 0 0 1 100 50 Z" role="listitem" aria-label="Non"></path>
+        </g>
+        <!-- Textes Oui/Non placés au centre de chaque segment -->
+        <text x="75" y="57" text-anchor="middle" dominant-baseline="middle">Oui</text>
+        <text x="68" y="85" text-anchor="middle" dominant-baseline="middle">Non</text>
+        <text x="32" y="85" text-anchor="middle" dominant-baseline="middle">Oui</text>
+        <text x="15" y="57" text-anchor="middle" dominant-baseline="middle">Non</text>
+        <text x="15" y="43" text-anchor="middle" dominant-baseline="middle">Oui</text>
+        <text x="32" y="15" text-anchor="middle" dominant-baseline="middle">Non</text>
+        <text x="68" y="15" text-anchor="middle" dominant-baseline="middle">Oui</text>
+        <text x="85" y="43" text-anchor="middle" dominant-baseline="middle">Non</text>
+      </svg>
+    </section>
+  </main>
+
+<script>
+  const wheel = document.getElementById('wheel').parentNode; // svg element
+
+  wheel.addEventListener('click', () => {
+    // Supprime la classe spin si elle existe pour permettre re-spin
+    wheel.classList.remove('spin');
+    void wheel.offsetWidth; // trigger reflow
+    wheel.classList.add('spin');
+  });
+</script>
+</body>
+</html>
