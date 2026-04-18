@@ -120,8 +120,8 @@
                 localStorage.setItem('lastPlayDate', new Date().toDateString());
 
                 // Bouton WhatsApp
-                const text = encodeURIComponent("Coucou mon chéri ! J'ai tourné la roue et j'ai gagné : " + result);
-               notifyBtn.href = "https://wa.me/?text=" + text;
+               const text = encodeURIComponent("🎡 *RÉSULTAT DE NOTRE RITUEL* 🎡\n\nJ'ai tourné la roue et j'ai gagné :\n✨ " + result + " ✨\n\nÀ toi de jouer demain ! 😉");
+notifyBtn.href = "https://wa.me/?text=" + text;
                 notifyBtn.style.display = "inline-block";
             }, 5000);
         });
