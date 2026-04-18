@@ -1,104 +1,192 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Roue de jeu Oui/Non circulaire</title>
-<style>
-  body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background: #222;
-    margin: 0;
-    font-family: Arial, sans-serif;
-  }
-  .wheel-container {
-    position: relative;
-    width: 400px;
-    height: 400px;
-  }
-  svg {
-    width: 100%;
-    height: 100%;
-    cursor: pointer;
-    user-select: none;
-    border-radius: 50%;
-    box-shadow: 0 0 15px rgba(0,0,0,0.4);
-  }
-  text {
-    font-weight: bold;
-    font-size: 18px;
-    fill: white;
-    text-shadow: 0 0 3px rgba(0,0,0,0.7);
-    pointer-events: none;
-  }
-  /* Animation rotation */
-  .spin {
-    animation: spin 4s ease-out forwards;
-  }
-  @keyframes spin {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(1440deg); /* 4 tours complets */
-    }
-  }
-  /* Background image behind the wheel */
-  .bg-image {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80');
-    background-size: cover;
-    background-position: center;
-    z-index: 0;
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Roue de la Fortune</title>
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .stats {
+            font-size: 24px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            border-radius: 10px;
+        }
+
+        .wheel-container {
+            position: relative;
+            width: 350px;
+            height: 350px;
+        }
+
+        /* La flèche */
+        .arrow {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0; 
+            height: 0; 
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 30px solid #e74c3c;
+            z-index: 10;
+        }
+
+        #wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 5px solid #fff;
+            transition: transform 4s cubic-bezier(0.15, 0, 0.15, 1);
+        }
+
+        .btn-spin {
+            margin-top: 30px;
+            padding: 15px 30px;
+            font-size: 18px;
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-spin:disabled {
+            background-color: #7f8c8d;
+            cursor: not-allowed;
+        }
+
+        .btn-spin:hover:not(:disabled) {
+            background-color: #2ecc71;
+        }
+
+        #message {
+            margin-top: 20px;
+            font-weight: bold;
+            height: 20px;
+        }
+    </style>
 </head>
 <body>
-  <main>
-    <section class="wheel-container" aria-label="Roue de jeu Oui ou Non" role="region">
-      <div class="bg-image" aria-hidden="true"></div>
-      <svg viewBox="0 0 100 100" role="list" aria-label="Segments Oui ou Non" tabindex="0" aria-live="polite">
-        <!-- 8 segments de 45 degrés chacun -->
-        <!-- On crée les parts en alternant les couleurs -->
-        <g id="wheel">
-          <path fill="rgba(0,128,0,0.7)" d="M50 50 L100 50 A50 50 0 0 1 85.36 85.36 Z" role="listitem" aria-label="Oui"></path>
-          <path fill="rgba(128,0,0,0.7)" d="M50 50 L85.36 85.36 A50 50 0 0 1 50 100 Z" role="listitem" aria-label="Non"></path>
-          <path fill="rgba(0,128,0,0.7)" d="M50 50 L50 100 A50 50 0 0 1 14.64 85.36 Z" role="listitem" aria-label="Oui"></path>
-          <path fill="rgba(128,0,0,0.7)" d="M50 50 L14.64 85.36 A50 50 0 0 1 0 50 Z" role="listitem" aria-label="Non"></path>
-          <path fill="rgba(0,128,0,0.7)" d="M50 50 L0 50 A50 50 0 0 1 14.64 14.64 Z" role="listitem" aria-label="Oui"></path>
-          <path fill="rgba(128,0,0,0.7)" d="M50 50 L14.64 14.64 A50 50 0 0 1 50 0 Z" role="listitem" aria-label="Non"></path>
-          <path fill="rgba(0,128,0,0.7)" d="M50 50 L50 0 A50 50 0 0 1 85.36 14.64 Z" role="listitem" aria-label="Oui"></path>
-          <path fill="rgba(128,0,0,0.7)" d="M50 50 L85.36 14.64 A50 50 0 0 1 100 50 Z" role="listitem" aria-label="Non"></path>
-        </g>
-        <!-- Textes Oui/Non placés au centre de chaque segment -->
-        <text x="75" y="57" text-anchor="middle" dominant-baseline="middle">Oui</text>
-        <text x="68" y="85" text-anchor="middle" dominant-baseline="middle">Non</text>
-        <text x="32" y="85" text-anchor="middle" dominant-baseline="middle">Oui</text>
-        <text x="15" y="57" text-anchor="middle" dominant-baseline="middle">Non</text>
-        <text x="15" y="43" text-anchor="middle" dominant-baseline="middle">Oui</text>
-        <text x="32" y="15" text-anchor="middle" dominant-baseline="middle">Non</text>
-        <text x="68" y="15" text-anchor="middle" dominant-baseline="middle">Oui</text>
-        <text x="85" y="43" text-anchor="middle" dominant-baseline="middle">Non</text>
-      </svg>
-    </section>
-  </main>
 
-<script>
-  const wheel = document.getElementById('wheel').parentNode; // svg element
+    <div class="stats">Points : <span id="score">100</span></div>
 
-  wheel.addEventListener('click', () => {
-    // Supprime la classe spin si elle existe pour permettre re-spin
-    wheel.classList.remove('spin');
-    void wheel.offsetWidth; // trigger reflow
-    wheel.classList.add('spin');
-  });
-</script>
+    <div class="wheel-container">
+        <div class="arrow"></div>
+        <canvas id="wheel" width="350" height="350"></canvas>
+    </div>
+
+    <button class="btn-spin" id="spinBtn">Miser 1 pt & Tourner</button>
+    <div id="message"></div>
+
+    <script>
+        const canvas = document.getElementById('wheel');
+        const ctx = canvas.getContext('2d');
+        const spinBtn = document.getElementById('spinBtn');
+        const scoreDisplay = document.getElementById('score');
+        const message = document.getElementById('message');
+
+        let score = 100;
+        let isSpinning = false;
+
+        const sectors = [
+            { label: "PERDU", color: "#34495e", win: 0 },
+            { label: "+2 pts", color: "#2ecc71", win: 2 },
+            { label: "PERDU", color: "#2c3e50", win: 0 },
+            { label: "+5 pts", color: "#f1c40f", win: 5 },
+            { label: "PERDU", color: "#34495e", win: 0 },
+            { label: "+10 pts", color: "#e67e22", win: 10 },
+            { label: "PERDU", color: "#2c3e50", win: 0 },
+            { label: "+20 pts", color: "#9b59b6", win: 20 },
+            { label: "PERDU", color: "#34495e", win: 0 },
+            { label: "+2 pts", color: "#27ae60", win: 2 }
+        ];
+
+        const numSectors = sectors.length;
+        const arc = 2 * Math.PI / numSectors;
+        let currentRotation = 0;
+
+        function drawWheel() {
+            sectors.forEach((sector, i) => {
+                const angle = i * arc;
+                ctx.beginPath();
+                ctx.fillStyle = sector.color;
+                ctx.moveTo(175, 175);
+                ctx.arc(175, 175, 175, angle, angle + arc);
+                ctx.lineTo(175, 175);
+                ctx.fill();
+                ctx.stroke();
+
+                // Texte
+                ctx.save();
+                ctx.translate(175, 175);
+                ctx.rotate(angle + arc / 2);
+                ctx.textAlign = "right";
+                ctx.fillStyle = "#fff";
+                ctx.font = "bold 16px Arial";
+                ctx.fillText(sector.label, 160, 10);
+                ctx.restore();
+            });
+        }
+
+        drawWheel();
+
+        spinBtn.addEventListener('click', () => {
+            if (isSpinning || score < 1) return;
+
+            // Mise
+            score -= 1;
+            scoreDisplay.textContent = score;
+            message.textContent = "La roue tourne...";
+            isSpinning = true;
+            spinBtn.disabled = true;
+
+            // Calcul de la rotation
+            const spinRotation = Math.floor(Math.random() * 360) + 1440; // Au moins 4 tours
+            currentRotation += spinRotation;
+            canvas.style.transform = `rotate(${currentRotation}deg)`;
+
+            setTimeout(() => {
+                isSpinning = false;
+                spinBtn.disabled = false;
+
+                // Calcul du résultat
+                const actualRotation = currentRotation % 360;
+                // La flèche est en haut (270 deg sur le cercle trigonométrique)
+                const sectorIndex = Math.floor((360 - (actualRotation % 360) + 270) % 360 / (360 / numSectors));
+                const result = sectors[sectorIndex];
+
+                if (result.win > 0) {
+                    score += result.win;
+                    message.textContent = `GAGNÉ ! +${result.win} points !`;
+                    message.style.color = "#2ecc71";
+                } else {
+                    message.textContent = "Dommage... Perdu !";
+                    message.style.color = "#e74c3c";
+                }
+                scoreDisplay.textContent = score;
+
+                if (score <= 0) {
+                    message.textContent = "PLUS DE POINTS ! GAME OVER.";
+                    spinBtn.disabled = true;
+                }
+            }, 4000);
+        });
+    </script>
 </body>
 </html>
