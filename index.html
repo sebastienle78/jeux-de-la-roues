@@ -95,13 +95,11 @@
         drawWheel();
 
         // --- LOGIQUE 24H ---
-        function checkPlayability() {
-            const lastPlay = localStorage.getItem('lastPlayDate');
-            const today = new Date().toDateString();
-            if (lastPlay === today) {
-                spinBtn.disabled = true;
-                message.textContent = "Tu as déjà joué aujourd'hui. Patience...";
-            }
+       function checkPlayability() {
+            // Mode Joker pour le lancement !
+            spinBtn.disabled = false;
+            message.textContent = "✨ Lancement officiel : À vous de jouer ! ✨";
+        }
         }
         checkPlayability();
 
