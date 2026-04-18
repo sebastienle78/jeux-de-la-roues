@@ -94,13 +94,12 @@
         }
         drawWheel();
 
-        // --- LOGIQUE 24H ---
        function checkPlayability() {
             // Mode Joker pour le lancement !
             spinBtn.disabled = false;
             message.textContent = "✨ Lancement officiel : À vous de jouer ! ✨";
         }
-        }
+
         checkPlayability();
 
         spinBtn.addEventListener('click', () => {
