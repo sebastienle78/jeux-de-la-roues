@@ -3,189 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La Roue de la Fortune</title>
+    <title>Notre Rituel Quotidien</title>
     <style>
         body {
-            background-color: #1a1a1a;
-            color: white;
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            overflow: hidden;
+            background: radial-gradient(circle, #2c003e 0%, #000000 100%);
+            color: #f1d4d4;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex; flex-direction: column; align-items: center;
+            justify-content: center; height: 100vh; margin: 0; overflow: hidden;
         }
 
-        .stats {
-            font-size: 24px;
-            margin-bottom: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 10px 20px;
-            border-radius: 10px;
-        }
+        h1 { font-style: italic; font-weight: 300; letter-spacing: 2px; margin-bottom: 30px; }
 
-        .wheel-container {
-            position: relative;
-            width: 350px;
-            height: 350px;
-        }
+        .wheel-container { position: relative; width: 320px; height: 320px; box-shadow: 0 0 50px rgba(186, 85, 211, 0.2); border-radius: 50%; }
 
-        /* La flèche */
         .arrow {
-            position: absolute;
-            top: -20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0; 
-            height: 0; 
-            border-left: 15px solid transparent;
-            border-right: 15px solid transparent;
-            border-top: 30px solid #e74c3c;
-            z-index: 10;
+            position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
+            width: 0; height: 0; border-left: 12px solid transparent; border-right: 12px solid transparent;
+            border-top: 25px solid #ff4d6d; z-index: 10;
         }
 
-        #wheel {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            border: 5px solid #fff;
-            transition: transform 4s cubic-bezier(0.15, 0, 0.15, 1);
-        }
+        #wheel { width: 100%; height: 100%; border-radius: 50%; border: 4px solid #f1d4d4; transition: transform 5s cubic-bezier(0.15, 0, 0.15, 1); }
 
         .btn-spin {
-            margin-top: 30px;
-            padding: 15px 30px;
-            font-size: 18px;
-            background-color: #27ae60;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: 0.3s;
+            margin-top: 40px; padding: 12px 35px; font-size: 18px;
+            background: transparent; color: #f1d4d4; border: 1px solid #f1d4d4;
+            border-radius: 50px; cursor: pointer; transition: 0.4s;
         }
 
-        .btn-spin:disabled {
-            background-color: #7f8c8d;
-            cursor: not-allowed;
+        .btn-spin:hover:not(:disabled) { background: #f1d4d4; color: #2c003e; }
+
+        .btn-spin:disabled { opacity: 0.3; cursor: not-allowed; }
+
+        #notifyBtn {
+            display: none; margin-top: 15px; padding: 10px 20px;
+            background-color: #25D366; color: white; border: none; border-radius: 5px; text-decoration: none; font-weight: bold;
         }
 
-        .btn-spin:hover:not(:disabled) {
-            background-color: #2ecc71;
-        }
-
-        #message {
-            margin-top: 20px;
-            font-weight: bold;
-            height: 20px;
-        }
+        #message { margin-top: 25px; font-size: 1.2rem; text-align: center; max-width: 80%; min-height: 1.5em; color: #ff4d6d; }
     </style>
 </head>
 <body>
 
-    <div class="stats">Points : <span id="score">100</span></div>
+    <h1>Notre Rituel Privé</h1>
 
     <div class="wheel-container">
         <div class="arrow"></div>
-        <canvas id="wheel" width="350" height="350"></canvas>
+        <canvas id="wheel" width="320" height="320"></canvas>
     </div>
 
-    <button class="btn-spin" id="spinBtn">Miser 1 pt & Tourner</button>
+    <button class="btn-spin" id="spinBtn">Tenter ma chance</button>
     <div id="message"></div>
+    <a id="notifyBtn" href="#" target="_blank">Envoyer le résultat à mon chéri ✉️</a>
 
     <script>
         const canvas = document.getElementById('wheel');
         const ctx = canvas.getContext('2d');
         const spinBtn = document.getElementById('spinBtn');
-        const scoreDisplay = document.getElementById('score');
         const message = document.getElementById('message');
+        const notifyBtn = document.getElementById('notifyBtn');
 
-        let score = 100;
-        let isSpinning = false;
-
+        // --- CONFIGURATION ---
         const sectors = [
-            { label: "PERDU", color: "#34495e", win: 0 },
-            { label: "+2 pts", color: "#2ecc71", win: 2 },
-            { label: "PERDU", color: "#2c3e50", win: 0 },
-            { label: "+5 pts", color: "#f1c40f", win: 5 },
-            { label: "PERDU", color: "#34495e", win: 0 },
-            { label: "+10 pts", color: "#e67e22", win: 10 },
-            { label: "PERDU", color: "#2c3e50", win: 0 },
-            { label: "+20 pts", color: "#9b59b6", win: 20 },
-            { label: "PERDU", color: "#34495e", win: 0 },
-            { label: "+2 pts", color: "#27ae60", win: 2 }
+            { label: "Massage 15min", color: "#4a0072" },
+            { label: "Bisou volé", color: "#7b1fa2" },
+            { label: "Gage Chéri (Toi !)", color: "#ff4d6d" },
+            { label: "Dîner aux chandelles", color: "#4a0072" },
+            { label: "Vérité ou Défi ?", color: "#7b1fa2" },
+            { label: "Perdu... Reviens demain", color: "#1a1a1a" },
+            { label: "Soirée Cinéma", color: "#4a0072" },
+            { label: "Gage au choix", color: "#7b1fa2" },
+            { label: "Petit-déjeuner au lit", color: "#ff4d6d" },
+            { label: "Un voeu exaucé", color: "#4a0072" }
         ];
 
-        const numSectors = sectors.length;
-        const arc = 2 * Math.PI / numSectors;
+        const arc = 2 * Math.PI / sectors.length;
         let currentRotation = 0;
 
         function drawWheel() {
             sectors.forEach((sector, i) => {
                 const angle = i * arc;
-                ctx.beginPath();
-                ctx.fillStyle = sector.color;
-                ctx.moveTo(175, 175);
-                ctx.arc(175, 175, 175, angle, angle + arc);
-                ctx.lineTo(175, 175);
-                ctx.fill();
-                ctx.stroke();
-
-                // Texte
-                ctx.save();
-                ctx.translate(175, 175);
-                ctx.rotate(angle + arc / 2);
-                ctx.textAlign = "right";
-                ctx.fillStyle = "#fff";
-                ctx.font = "bold 16px Arial";
-                ctx.fillText(sector.label, 160, 10);
+                ctx.beginPath(); ctx.fillStyle = sector.color;
+                ctx.moveTo(160, 160); ctx.arc(160, 160, 160, angle, angle + arc);
+                ctx.fill(); ctx.save();
+                ctx.translate(160, 160); ctx.rotate(angle + arc / 2);
+                ctx.textAlign = "right"; ctx.fillStyle = "#fff";
+                ctx.font = "12px Arial"; ctx.fillText(sector.label, 150, 5);
                 ctx.restore();
             });
         }
-
         drawWheel();
 
+        // --- LOGIQUE 24H ---
+        function checkPlayability() {
+            const lastPlay = localStorage.getItem('lastPlayDate');
+            const today = new Date().toDateString();
+            if (lastPlay === today) {
+                spinBtn.disabled = true;
+                message.textContent = "Tu as déjà joué aujourd'hui. Patience...";
+            }
+        }
+        checkPlayability();
+
         spinBtn.addEventListener('click', () => {
-            if (isSpinning || score < 1) return;
-
-            // Mise
-            score -= 1;
-            scoreDisplay.textContent = score;
-            message.textContent = "La roue tourne...";
-            isSpinning = true;
             spinBtn.disabled = true;
-
-            // Calcul de la rotation
-            const spinRotation = Math.floor(Math.random() * 360) + 1440; // Au moins 4 tours
+            const spinRotation = Math.floor(Math.random() * 360) + 1800;
             currentRotation += spinRotation;
             canvas.style.transform = `rotate(${currentRotation}deg)`;
 
             setTimeout(() => {
-                isSpinning = false;
-                spinBtn.disabled = false;
-
-                // Calcul du résultat
                 const actualRotation = currentRotation % 360;
-                // La flèche est en haut (270 deg sur le cercle trigonométrique)
-                const sectorIndex = Math.floor((360 - (actualRotation % 360) + 270) % 360 / (360 / numSectors));
-                const result = sectors[sectorIndex];
+                const sectorIndex = Math.floor((360 - (actualRotation % 360) + 270) % 360 / (360 / sectors.length));
+                const result = sectors[sectorIndex].label;
 
-                if (result.win > 0) {
-                    score += result.win;
-                    message.textContent = `GAGNÉ ! +${result.win} points !`;
-                    message.style.color = "#2ecc71";
-                } else {
-                    message.textContent = "Dommage... Perdu !";
-                    message.style.color = "#e74c3c";
-                }
-                scoreDisplay.textContent = score;
+                message.textContent = "Résultat : " + result;
+                localStorage.setItem('lastPlayDate', new Date().toDateString());
 
-                if (score <= 0) {
-                    message.textContent = "PLUS DE POINTS ! GAME OVER.";
-                    spinBtn.disabled = true;
-                }
-            }, 4000);
+                // Bouton WhatsApp
+                const text = encodeURIComponent("Coucou mon chéri ! J'ai tourné la roue et j'ai gagné : " + result);
+               notifyBtn.href = "https://wa.me/33658628791?text=" + text;
+                notifyBtn.style.display = "inline-block";
+            }, 5000);
         });
     </script>
 </body>
