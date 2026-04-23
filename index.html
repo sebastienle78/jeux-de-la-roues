@@ -64,17 +64,18 @@
         const notifyBtn = document.getElementById('notifyBtn');
 
         // --- CONFIGURATION ---
-        const sectors = [
-            { label: "Massage 15min", color: "#4a0072" },
-            { label: "Bisou volé", color: "#7b1fa2" },
-            { label: "Gage Chéri (Toi !)", color: "#ff4d6d" },
-            { label: "Dîner aux chandelles", color: "#4a0072" },
-            { label: "Vérité ou Défi ?", color: "#7b1fa2" },
-            { label: "Perdu... Reviens demain", color: "#1a1a1a" },
-            { label: "Soirée Cinéma", color: "#4a0072" },
-            { label: "Gage au choix", color: "#7b1fa2" },
-            { label: "Petit-déjeuner au lit", color: "#ff4d6d" },
-            { label: "Un voeu exaucé", color: "#4a0072" }
+       const sectors = [
+            { label: "Gage au choix", color: "#FFD700" }, // Or
+            { label: "Petit-déjeuner au lit", color: "#FF8C00" }, // Orange foncé
+            { label: "Massage 15 min", color: "#FF4500" }, // Rouge-Orange
+            { label: "Bisous langoureux", color: "#FF1493" }, // Rose profond
+            { label: "Vérité ou Défi", color: "#00BFFF" }, // Bleu ciel
+            { label: "PERDU", color: "#4B0082" }, // Indigo (Très sombre)
+            { label: "Gâterie buccale", color: "#DC143C" }, // Crimson
+            { label: "Dîner en amoureux", color: "#32CD32" }, // Vert lime
+            { label: "Jeu exotique ce soir", color: "#9400D3" }, // Violet
+            { label: "PERDU", color: "#2F4F4F" }, // Gris ardoise
+            { label: "Parler fantasmes", color: "#000080" } // Bleu Marine
         ];
 
         const arc = 2 * Math.PI / sectors.length;
@@ -83,12 +84,23 @@
         function drawWheel() {
             sectors.forEach((sector, i) => {
                 const angle = i * arc;
-                ctx.beginPath(); ctx.fillStyle = sector.color;
-                ctx.moveTo(160, 160); ctx.arc(160, 160, 160, angle, angle + arc);
-                ctx.fill(); ctx.save();
-                ctx.translate(160, 160); ctx.rotate(angle + arc / 2);
-                ctx.textAlign = "right"; ctx.fillStyle = "#fff";
-                ctx.font = "12px Arial"; ctx.fillText(sector.label, 150, 5);
+                ctx.beginPath();
+                ctx.fillStyle = sector.color;
+                ctx.strokeStyle = "#000000"; // Ligne noire
+                ctx.lineWidth = 2;           // Épaisseur
+                
+                ctx.moveTo(150, 150);
+                ctx.arc(150, 150, 150, angle, angle + arc);
+                ctx.fill();
+                ctx.stroke(); // Dessine la bordure noire
+                ctx.save();
+
+                ctx.translate(150, 150);
+                ctx.rotate(angle + arc / 2);
+                ctx.textAlign = "right";
+                ctx.fillStyle = "#fff";
+                ctx.font = "bold 10px Arial"; // Police plus petite pour les textes longs
+                ctx.fillText(sector.label, 140, 5);
                 ctx.restore();
             });
         }
