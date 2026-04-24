@@ -79,7 +79,7 @@
         ];
 
         const arc = 2 * Math.PI / sectors.length;
-        let currentRotation = 0;
+      let currentRotation = -90 - (180 / sectors.length); 
 
         function drawWheel() {
             sectors.forEach((sector, i) => {
@@ -100,7 +100,7 @@
                 ctx.textAlign = "right";
                 ctx.fillStyle = "#fff";
                 ctx.font = "bold 10px Arial"; // Police plus petite pour les textes longs
-                ctx.fillText(sector.label, 140, 5);
+                ctx.fillText(sector.label, 125, 5);
                 ctx.restore();
             });
         }
