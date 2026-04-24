@@ -79,7 +79,9 @@
         ];
 
         const arc = 2 * Math.PI / sectors.length;
-      let currentRotation = -90 - (180 / sectors.length); 
+      const rotationInitiale = -90 - (180 / sectors.length);
+        let currentRotation = rotationInitiale;
+        wheel.style.transform = `rotate(${currentRotation}deg)`;
 
         function drawWheel() {
             sectors.forEach((sector, i) => {
