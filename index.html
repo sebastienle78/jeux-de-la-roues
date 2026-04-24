@@ -79,8 +79,6 @@
             { label: "Câlin tendresse", color: "#FF69B4" }
         ];
 
-        const arc = 2 * Math.PI / sectors.length;
-      const rotationInitiale = -90 - (180 / sectors.length);
                 const arc = 2 * Math.PI / sectors.length;
         const rotationInitiale = -90 - (180 / sectors.length);
         let currentRotation = rotationInitiale;
@@ -91,26 +89,27 @@
                 const angle = i * arc;
                 ctx.beginPath();
                 ctx.fillStyle = sector.color;
-                ctx.strokeStyle = "#000000"; // Ligne noire
-                ctx.lineWidth = 2;           // Épaisseur
+                ctx.strokeStyle = "#000000";
+                ctx.lineWidth = 2;
                 
                 ctx.moveTo(150, 150);
                 ctx.arc(150, 150, 150, angle, angle + arc);
                 ctx.fill();
-                ctx.stroke(); // Dessine la bordure noire
+                ctx.stroke();
                 ctx.save();
-
 
                 ctx.translate(150, 150);
                 ctx.rotate(angle + arc / 2);
                 ctx.textAlign = "right";
                 ctx.fillStyle = "#fff";
-                ctx.font = "bold 10px Arial"; // Police plus petite pour les textes longs
-                ctx.fillText(sector.label, 130, 5);
+                ctx.font = "bold 10px Arial";
+                ctx.fillText(sector.label, 135, 5);
                 ctx.restore();
             });
         }
+
         drawWheel();
+
 
       function checkPlayability() {
             const lastPlay = localStorage.getItem('lastPlayDate');
