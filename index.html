@@ -65,21 +65,24 @@
 
         // --- CONFIGURATION ---
        const sectors = [
-            { label: "Gage au choix", color: "#FFD700" }, // Or
-            { label: "Petit-déjeuner au lit", color: "#FF8C00" }, // Orange foncé
-            { label: "Massage 15 min", color: "#FF4500" }, // Rouge-Orange
-            { label: "Bisous langoureux", color: "#FF1493" }, // Rose profond
-            { label: "Vérité ou Défi", color: "#00BFFF" }, // Bleu ciel
-            { label: "PERDU", color: "#4B0082" }, // Indigo (Très sombre)
-            { label: "Gâterie buccale", color: "#DC143C" }, // Crimson
-            { label: "Dîner en amoureux", color: "#32CD32" }, // Vert lime
-            { label: "Jeu erotique ce soir", color: "#9400D3" }, // Violet
-            { label: "PERDU", color: "#2F4F4F" }, // Gris ardoise
-            { label: "Parler fantasmes", color: "#000080" } // Bleu Marine
+            { label: "Gage au choix", color: "#FFD700" },
+            { label: "Petit-déjeuner au lit", color: "#FF8C00" },
+            { label: "Massage 15 min", color: "#FF4500" },
+            { label: "Bisous langoureux", color: "#FF1493" },
+            { label: "Vérité ou Défi", color: "#00BFFF" },
+            { label: "PERDU", color: "#4B0082" },
+            { label: "Gâterie buccale", color: "#DC143C" },
+            { label: "Dîner en amoureux", color: "#32CD32" },
+            { label: "Jeu exotique ce soir", color: "#9400D3" },
+            { label: "PERDU", color: "#2F4F4F" },
+            { label: "Parler fantasmes", color: "#000080" },
+            { label: "Câlin tendresse", color: "#FF69B4" }
         ];
 
         const arc = 2 * Math.PI / sectors.length;
       const rotationInitiale = -90 - (180 / sectors.length);
+                const arc = 2 * Math.PI / sectors.length;
+        const rotationInitiale = -90 - (180 / sectors.length);
         let currentRotation = rotationInitiale;
         wheel.style.transform = `rotate(${currentRotation}deg)`;
 
@@ -96,6 +99,7 @@
                 ctx.fill();
                 ctx.stroke(); // Dessine la bordure noire
                 ctx.save();
+
 
                 ctx.translate(150, 150);
                 ctx.rotate(angle + arc / 2);
