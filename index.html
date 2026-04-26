@@ -1,4 +1,4 @@
-7<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -41,7 +41,8 @@
         }
 
         #message { margin-top: 25px; font-size: 1.2rem; text-align: center; max-width: 80%; min-height: 1.5em; color: #ff4d6d; }
- .heart {
+
+        .heart {
             position: fixed;
             top: -10px;
             font-size: 24px;
@@ -71,22 +72,6 @@
     <div id="message"></div>
     <a id="notifyBtn" href="#" target="_blank">Envoyer le résultat à mon chéri ✉️</a>
 
-    function launchHearts() {
-    const container = document.body;
-    for (let i = 0; i < 50; i++) {
-        const heart = document.createElement('div');
-        heart.className = 'heart';
-        heart.innerHTML = '❤️';
-        heart.style.left = Math.random() * 100 + 'vw';
-        heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
-        heart.style.opacity = Math.random();
-        heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
-        container.appendChild(heart);
-        
-        // On nettoie pour ne pas ralentir le téléphone
-        setTimeout(() => heart.remove(), 5000);
-    }
-}
     <script>
         const canvas = document.getElementById('wheel');
         const ctx = canvas.getContext('2d');
@@ -94,8 +79,7 @@
         const message = document.getElementById('message');
         const notifyBtn = document.getElementById('notifyBtn');
 
-        // --- CONFIGURATION ---
-       const sectors = [
+        const sectors = [
             { label: "Gage au choix", color: "#FFD700" },
             { label: "Petit-déjeuner au lit", color: "#FF8C00" },
             { label: "Massage 15 min", color: "#FF4500" },
@@ -110,10 +94,10 @@
             { label: "Câlin tendresse", color: "#FF69B4" }
         ];
 
-                const arc = 2 * Math.PI / sectors.length;
+        const arc = 2 * Math.PI / sectors.length;
         const rotationInitiale = -90 - (180 / sectors.length);
         let currentRotation = rotationInitiale;
-        wheel.style.transform = `rotate(${currentRotation}deg)`;
+        canvas.style.transform = `rotate(${currentRotation}deg)`;
 
         function drawWheel() {
             sectors.forEach((sector, i) => {
@@ -122,13 +106,11 @@
                 ctx.fillStyle = sector.color;
                 ctx.strokeStyle = "#000000";
                 ctx.lineWidth = 2;
-                
-               ctx.moveTo(160, 160);
+                ctx.moveTo(160, 160);
                 ctx.arc(160, 160, 150, angle, angle + arc);
                 ctx.fill();
                 ctx.stroke();
                 ctx.save();
-
                 ctx.translate(160, 160);
                 ctx.rotate(angle + arc / 2);
                 ctx.textAlign = "right";
@@ -141,11 +123,27 @@
 
         drawWheel();
 
+        // Fonction pour la pluie de coeurs
+        function launchHearts() {
+            const container = document.body;
+            for (let i = 0; i < 50; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = '❤️';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                heart.style.opacity = Math.random();
+                heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+                container.appendChild(heart);
+                setTimeout(() => heart.remove(), 5000);
+            }
+        }
 
-      function checkPlayability() {
+        function checkPlayability() {
             const lastPlay = localStorage.getItem('lastPlayDate');
             const today = new Date().toDateString();
             
+            // Note: J'ai laissé la vérification, mais tu peux la commenter pour tester
             if (lastPlay === today) {
                 spinBtn.disabled = true;
                 message.textContent = "Tu as déjà joué aujourd'hui. Patience...";
@@ -169,30 +167,17 @@
                 const result = sectors[sectorIndex].label;
 
                 message.textContent = "Résultat : " + result;
+                
+                // On lance les coeurs ici !
+                launchHearts();
+
                 localStorage.setItem('lastPlayDate', new Date().toDateString());
 
-                // Bouton WhatsApp
-               const text = encodeURIComponent("🎡 *RÉSULTAT DE NOTRE RITUEL* 🎡\n\nJ'ai tourné la roue et j'ai gagné :\n✨ " + result + " ✨\n\nÀ toi de jouer demain ! 😉");
-notifyBtn.href = "https://wa.me/?text=" + text;
+                const text = encodeURIComponent("🎡 *RÉSULTAT DE NOTRE RITUEL* 🎡\n\nJ'ai tourné la roue et j'ai gagné :\n✨ " + result + " ✨\n\nÀ toi de jouer demain ! 😉");
+                notifyBtn.href = "https://wa.me/?text=" + text;
                 notifyBtn.style.display = "inline-block";
             }, 5000);
         });
-  function launchHearts() {
-            const container = document.body;
-            for (let i = 0; i < 50; i++) {
-                const heart = document.createElement('div');
-                heart.className = 'heart';
-                heart.innerHTML = '❤️';
-                heart.style.left = Math.random() * 100 + 'vw';
-                heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
-                heart.style.opacity = Math.random();
-                heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
-                container.appendChild(heart);
-                
-                // On retire le cœur après 5 secondes pour libérer la mémoire
-                setTimeout(() => heart.remove(), 5000);
-            }
-        }
     </script>
 </body>
 </html>
