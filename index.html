@@ -41,6 +41,21 @@
         }
 
         #message { margin-top: 25px; font-size: 1.2rem; text-align: center; max-width: 80%; min-height: 1.5em; color: #ff4d6d; }
+ .heart {
+            position: fixed;
+            top: -10px;
+            font-size: 24px;
+            user-select: none;
+            pointer-events: none;
+            z-index: 1000;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        } 
     </style>
 </head>
 <body>
@@ -56,6 +71,22 @@
     <div id="message"></div>
     <a id="notifyBtn" href="#" target="_blank">Envoyer le résultat à mon chéri ✉️</a>
 
+    function launchHearts() {
+    const container = document.body;
+    for (let i = 0; i < 50; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.innerHTML = '❤️';
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+        heart.style.opacity = Math.random();
+        heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+        container.appendChild(heart);
+        
+        // On nettoie pour ne pas ralentir le téléphone
+        setTimeout(() => heart.remove(), 5000);
+    }
+}
     <script>
         const canvas = document.getElementById('wheel');
         const ctx = canvas.getContext('2d');
@@ -146,6 +177,22 @@ notifyBtn.href = "https://wa.me/?text=" + text;
                 notifyBtn.style.display = "inline-block";
             }, 5000);
         });
+  function launchHearts() {
+            const container = document.body;
+            for (let i = 0; i < 50; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = '❤️';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                heart.style.opacity = Math.random();
+                heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+                container.appendChild(heart);
+                
+                // On retire le cœur après 5 secondes pour libérer la mémoire
+                setTimeout(() => heart.remove(), 5000);
+            }
+        }
     </script>
 </body>
 </html>
