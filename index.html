@@ -93,13 +93,13 @@
                 ctx.strokeStyle = "#000000";
                 ctx.lineWidth = 2;
                 
-                ctx.moveTo(150, 150);
-                ctx.arc(150, 150, 150, angle, angle + arc);
+               ctx.moveTo(160, 160);
+                ctx.arc(160, 160, 150, angle, angle + arc);
                 ctx.fill();
                 ctx.stroke();
                 ctx.save();
 
-                ctx.translate(150, 150);
+                ctx.translate(160, 160);
                 ctx.rotate(angle + arc / 2);
                 ctx.textAlign = "right";
                 ctx.fillStyle = "#fff";
